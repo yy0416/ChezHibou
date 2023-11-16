@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+
+{% block body %}
+	<h1>Accueil</h1>
+	<p>Bienvenue dans notre restaurant</p>
+	<video width="640" height="360" controls>
+		<source src="{{ asset('public/images/video.mp4') }}" type="video/mp4">
+		Votre navigateur ne prend pas en charge la lecture de la vidéo.
+	</video>
+
+{% endblock %}
