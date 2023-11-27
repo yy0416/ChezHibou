@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réussir la réservation
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5" style="height:550px; background-image: url('{{ asset('build/images/background.jpeg') }}'); background-size: cover; background-position: center;">
+		<div class="card" style="width:600px">
+			<div class="card-body">
+				<h1 class="card-title">Félicitations !</h1>
+				<p class="card-text">Vous avez réussi à faire une réservation chez nous.</p>
+			</div>
+		</div>
+
+		<div class="mt-4">
+			<a href="{{ path('app_main') }}" class="btn btn-primary">Retourner à la page d'Accueil</a>
+		</div>
+	</div>
+{% endblock %}

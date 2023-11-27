@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réserver une table
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5" style="height:550px">
+		<h1>Réserver une table</h1>
+
+		{{ form_start(form) }}
+		<div class="row mb-3">
+			<div class="col-md-6">
+				{{ form_row(form.clientName) }}
+			</div>
+			<div class="col-md-6">
+				{{ form_row(form.phoneNumber) }}
+			</div>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-md-6">
+				{{ form_row(form.clientEmail) }}
+			</div>
+			<div class="col-md-6">
+				{{ form_row(form.numberofReserve) }}
+			</div>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-md-6">
+				{{ form_row(form.heure) }}
+			</div>
+		</div>
+
+		<div class="mt-3 d-flex justify-content-end">
+			<button type="submit" class="btn btn-primary">Réserver</button>
+		</div>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

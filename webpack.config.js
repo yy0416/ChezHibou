@@ -81,6 +81,21 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
+    // Ajoutez la configuration pour le loader de fichiers vidéo
+    .addLoader({
+        test: /\.(mp4|webm)$/,
+        use: [
+            {
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: 'videos/'
+                }
+            }
+        ]
+    })
     ;
+
+
 
 module.exports = Encore.getWebpackConfig();

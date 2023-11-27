@@ -18,7 +18,7 @@ class Orders
     #[ORM\Column(length: 20, unique: true)]
     private ?string $reference = null;
 
-    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'], nullable: true)]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
@@ -28,7 +28,7 @@ class Orders
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $users = null;
 
-    #[ORM\OneToMany(mappedBy: 'orders', targetEntity: OrdersDetails::class)]
+    #[ORM\OneToMany(mappedBy: 'orders', targetEntity: OrdersDetails::class, cascade: ['persist'])]
     private Collection $ordersDetails;
 
     public function __construct()

@@ -1,44 +1,46 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
 	<div class="container-fluid">
-		<img src="{{ asset('build/images/logo.png') }}" alt="Logo Chez HIBOU" width="80" height="80">
-
-		<a class="navbar-brand" href="#">Chez HIBOU</a>
+		<a href='{{ path('app_main')}}'>
+			<img src="{{ asset('build/images/logo.png') }}" alt="Logo Chez HIBOU" width="80" height="80">
+		</a>
+		<a class="navbar-brand" href='{{ path('app_main')}}'>
+			Chez HIBOU</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="#">Nos restaurant</a>
+					<a class="nav-link active" aria-current="page" href="{{ path('reservation')}}">Réserver une table</a>
 				</li>
 
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link dropdown-toggle" href='{{path('app_products')}}' role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						nos plats
 					</a>
 					<ul class="dropdown-menu">
 						<li>
-							<a class="dropdown-item" href="#">Entrée</a>
+							<a class="dropdown-item" href="{{path('app_categories_list',{id: 17})}}">Entrée chaude</a>
 						</li>
 						<li>
-							<a class="dropdown-item" href="#">Plats</a>
+							<a class="dropdown-item" href="{{path('app_categories_list',{id: 16})}}">Entrée froid</a>
 						</li>
 						<li>
-							<a class="dropdown-item" href="#">Desserts</a>
+							<a class="dropdown-item" href="{{path('app_categories_list',{id: 14})}}">Plats froids</a>
 						</li>
 						<li>
-							<a class="dropdown-item" href="#">Boissons</a>
+							<a class="dropdown-item" href="{{path('app_categories_list',{id: 13})}}">Plats chaudes</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{path('app_categories_list',{id: 18})}}">Desserts</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{path('app_categories_list',{id: 19})}}">Boissons</a>
 						</li>
 
 
 					</ul>
 				</li>
-
-
-				<form class="d-flex" role="search">
-					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">Search</button>
-				</form>
 
 
 			</ul>
@@ -50,10 +52,13 @@
 						</p>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Mon compte</a>
+						<a class="nav-link" href={{path('app_user')}}>Mon compte</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href={{path('app_logout')}}>Me déconnecter</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href={{path('cart_index')}}>Mon Panier</a>
 					</li>
 				{% else %}
 					<li class="nav-item">
@@ -61,6 +66,9 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href={{path('app_register')}}>M'inscrire</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href={{path('cart_index')}}>Mon Panier</a>
 					</li>
 				{% endif %}
 

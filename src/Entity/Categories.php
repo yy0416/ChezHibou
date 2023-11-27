@@ -19,6 +19,7 @@ class Categories
     private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'categories')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?self $parent = null;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
@@ -26,6 +27,9 @@ class Categories
 
     #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Products::class)]
     private Collection $products;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $CategoryOrder = null;
 
     public function __construct()
     {
@@ -118,6 +122,18 @@ class Categories
                 $product->setCategories(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategoryOrder(): ?int
+    {
+        return $this->CategoryOrder;
+    }
+
+    public function setCategoryOrder(?int $CategoryOrder): static
+    {
+        $this->CategoryOrder = $CategoryOrder;
 
         return $this;
     }
