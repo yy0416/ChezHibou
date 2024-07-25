@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+
+	Details de
+	{{ product ? product.name : 'Produit inconnu' }}
+{% endblock %}
+
+{% block body %}
+	<main class="d-flex flex-column min-vh-100">
+		<div>
+			<a href="{{ path('app_products') }}">
+				<img style="height:50px" src="{{ asset('build/images/retour-derriere.png') }}" alt="Retour à la liste des produits">
+			</a>
+		</div>
+		<section class="row">
+			<div class="col-12">
+				<h1>
+					{{ product.name }}
+				</h1>
+			</div>
+			<div class="col-12 col-md-4">
+				<div id="carouselExampleIndicators" class="carousel slide">
+					<div class="carousel-indicators">
+						{% for iteration in 1..product.images|length %}
+							<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ iteration - 1 }}" {{ (loop.first)?'class="active" aria-current="true"' : ''}} aria-label="Slide {{ iteration }}"></button>
+						{% endfor %}
+					</div>
+					<div class="carousel-inner">
+						{% for image in product.images %}
+							<div class="carousel-item {{(loop.first)? 'active': ''}}">
+								<img style="height: 200px" src="{{ asset('build/images/' ~ image) }}" class="d-block w-100" alt="{{ product.name}}">
+							</div>
+						{% endfor %}
+
+
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+			</div>
+			<div class="col-12 col-md-6">
+				<div>
+					Catégorie:
+					{{ product.categories.name}}
+				</div>
+				<div>
+					<p>prix:
+						{{ product.price }}€</p>
+				</div>
+
+				<div>
+					<p>description:
+						{{ product.description}}
+					</p>
+				</div>
+				<div>
+					{% if product.stock > 0 %}
+						<a href="{{ path('cart_add',{id:product.id})}}" class="btn btn-primary">Ajouter au panier</a>
+					{% else %}
+						<p class="text-danger">Temporairement en rupture de stock</p>
+
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+	</section>
+</main>{% endblock %}

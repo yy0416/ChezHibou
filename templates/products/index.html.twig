@@ -10,16 +10,17 @@
 
 				<h2>Bienvenue ChezHibou</h2>
 			</div>
-
+			{% include '_partials/_productsnav.html.twig' %}
 
 			{% for product in products %}
 				<div class="col-3 mb-4">
-					<article class="card" style="height: 500px">
+					<article class="card" style="height: 580px">
 						<div class="card-body">
 
 							<h2 class="card-title" style="height: 100px">{{ product.name}}</h2>
-							<img style="height: 200px" src="{{ asset('build/images/' ~ product.image) }}" class="card-img-top" alt="{{ product.name }}">
+							<img style="height: 200px" src="{{ asset('build/images/' ~ product.images[0]) }}" class="card-img-top" alt="{{ product.name }}">
 							<p class="card-body" style="height: 100px">{{ product.description}}</p>
+							<a href="{{ path('app_products_details',{name: product.name})}}" class="btn btn-primary">Voir les détails</a>
 							<a href="{{ path('cart_add',{id:product.id})}}" class="btn btn-primary">Ajouter au panier</a>
 						</div>
 					</article>

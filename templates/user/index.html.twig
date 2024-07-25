@@ -1,20 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Mon compte
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/yueyuan/ecommerce_chezhibou/chezhibou/src/Controller/UserController.php'|file_link(0) }}">src/Controller/UserController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/yueyuan/ecommerce_chezhibou/chezhibou/templates/user/index.html.twig'|file_link(0) }}">templates/user/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<section class="container">
+		<h1>Bienvenue sur votre compte</h1>
+		<h2>Mon profil</h2>
+		<section class="container">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Champ</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Nom</td>
+						<td>{{ lastname }}</td>
+					</tr>
+					<tr>
+						<td>Prénom</td>
+						<td>{{ firstname }}</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td>{{ email }}</td>
+					</tr>
+					<tr>
+						<td>Adress</td>
+						<td>{{ address }}</td>
+					</tr>
+					<tr>
+						<td>City</td>
+						<td>{{ city }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<a class="btn btn-primary" href="{{ path('app_user_profile')}}">Je voudrais mis à jour mes infos
+			</a>
+		</section>
+		<h2>Mes commandes</h2>
+		{% include 'user/commande.html.twig' %}
+		{% if is_granted('ROLE_ADMIN') %}
+			<p>
+				<a href="{{ path('app_products_ajout') }}">Gérer les produits</a>
+			</p>
+		{% endif %}
+	</section>
 {% endblock %}

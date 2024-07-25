@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de commande
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1>Confirmation de commande</h1>
+
+		<div class="card mt-3">
+			<div class="card-body">
+				<h5 class="card-title">Référence:
+					{{ order.reference }}</h5>
+				<p class="card-text">Date de création:
+					{{ order.createdAt ? order.createdAt|date('d/m/Y H:i') : 'N/A' }}</p>
+				<p class="card-text">Utilisateur:
+					{{ order.users.email }}</p>
+				<p class="card-text">Coupon:
+					{{ order.coupons ? order.coupons.code : 'Aucun' }}</p>
+
+				<h5 class="mt-4">Détails des produits:</h5>
+				<ul class="list-group">
+					{% for detail in order.ordersDetails %}
+						<li class="list-group-item">
+							Produit:
+							{{ detail.products.name }}<br>
+							Quantité:
+							{{ detail.quantity }}<br>
+							Prix unitaire:
+							{{ detail.price  }}
+							€<br>
+							Prix total:
+							{{ (detail.price * detail.quantity)  }}
+							€
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+
+		<a href="{{ path('app_main') }}" class="btn btn-primary mt-3">Retour à l'accueil</a>
+	</div>
+{% endblock %}

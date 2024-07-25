@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Orders;
 use App\Entity\OrdersDetails;
+use App\Repository\OrdersRepository;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -23,7 +24,7 @@ class OrdersController extends AbstractController
 
         if ($panier === []) {
             $this->addFlash('message', 'Votre panier est vide.');
-            return $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('app_products');
         }
         //le panier n'est pas vide, on creer la commande
         $order = new Orders();
@@ -31,6 +32,8 @@ class OrdersController extends AbstractController
         //On remplit la commande
         $order->setUsers($this->getUser());
         $order->setReference(uniqid());
+        $order->setCreatedAt(new \DateTimeImmutable());
+
 
 
         //On parcourt le panier pour créer les détails de commande
@@ -58,6 +61,19 @@ class OrdersController extends AbstractController
 
 
         $this->addFlash('message', 'Commande créée avec succès');
-        return $this->redirectToRoute('app_main');
+        return $this->redirectToRoute('app_orders_confirm', ['id' => $order->getId()]);
+    }
+
+    #[Route('confirm/{id}', name: 'confirm')]
+
+    public function confirm(int $id, OrdersRepository $ordersRepository): Response
+    {
+        $order = $ordersRepository->find($id);
+
+        if (!$order) {
+            throw $this->createNotFoundException('Commande non trouvée');
+        }
+
+        return $this->render('orders/confirm.html.twig', ['order' => $order]);
     }
 }

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des produits
+{% endblock %}
+
+{% block body %}
+	<main class="container">
+		<section class="row">
+			<div class="col-12">
+				<h1>Ajouter des produits</h1>
+				<form method="post" action="{{ path('app_products_ajout') }}" enctype="multipart/form-data">
+					{% include "products/_form.html.twig" with { 'button_label': 'Sauvegarder' }%}
+					<a class="btn btn-secondary" href="{{ path('app_products') }}">Annuler la modification</a>
+				</form>
+			</div>
+		</section>
+
+		<a href="{{ path('app_admin_products')}}" class="btn btn-primary">Retour</a>
+
+
+	</main>
+{% endblock %}

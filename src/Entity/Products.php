@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Products
@@ -17,15 +18,22 @@ class Products
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom du produit ne peut pas être vide')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'le titre ne doit pas faire plus de {{max}} caractères'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero(message: 'Le prix ne peut pas être négatif')]
     private ?int $price = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero(message: 'Le stock ne peut pas être negatif')]
     private ?int $stock = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
@@ -35,9 +43,16 @@ class Products
     #[ORM\JoinColumn(nullable: false)]
     private ?Categories $categories = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private array $images = [];
 
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: OrdersDetails::class)]
+    private Collection $ordersDetails;
+
+    public function __construct()
+    {
+        $this->ordersDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -116,14 +131,44 @@ class Products
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImages(): ?array
     {
-        return $this->image;
+        return $this->images;
     }
 
-    public function setImage(?string $image): static
+    public function setImages(?array $images): self
     {
-        $this->image = $image;
+        $this->images = $images;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrdersDetails[]
+     */
+    public function getOrdersDetails(): Collection
+    {
+        return $this->ordersDetails;
+    }
+
+    public function addOrdersDetail(OrdersDetails $ordersDetail): self
+    {
+        if (!$this->ordersDetails->contains($ordersDetail)) {
+            $this->ordersDetails[] = $ordersDetail;
+            $ordersDetail->setProducts($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdersDetail(OrdersDetails $ordersDetail): self
+    {
+        if ($this->ordersDetails->removeElement($ordersDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($ordersDetail->getProducts() === $this) {
+                $ordersDetail->setProducts(null);
+            }
+        }
 
         return $this;
     }

@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+  images_directory: "%kernel.project_dir%/public/assets/uploads/"
 
 services:
   App\Twig\GlobalVariablesSubscriber:
@@ -25,3 +26,24 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
+  # Autowire and autoconfigure controllers
+  App\Controller\:
+    resource: "../src/Controller/"
+    tags: ["controller.service_arguments"]
+    autowire: true
+    autoconfigure: true
+
+  # Explicitly define PictureService
+  App\Service\PictureService:
+    autowire: true
+    autoconfigure: true
+
+  # Define services from SymfonyCasts VerifyEmail bundle
+  Symfony\Bridge\Twig\Mime\TemplatedEmail:
+    arguments:
+      - "@twig"
+
+  Symfony\Component\Mailer\MailerInterface: "@mailer.mailer"
+
+  App\Tests\MailerTestLogger:
+    tags: ["kernel.event_subscriber"]

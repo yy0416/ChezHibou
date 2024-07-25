@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Profil
+{% endblock %}
+
+{% block body %}
+	<section class="container">
+		<h1>Bienvenue sur votre compte</h1>
+		<h2>Modification de Mon profil</h2>
+		<section class="container">
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
+
+			<form method="post" action="{{ path('app_user_profile') }}" enctype="multipart/form-data">
+				{% include "user/_form.html.twig" %}
+			</form>
+			<a href="{{ path('app_user_index')}}" class='btn btn-primary'>Retour à mon compte</a>
+		</section>
+	</section>
+{% endblock %}

@@ -3,3 +3,7 @@ controllers:
     path: ../src/Controller/
     namespace: App\Controller
   type: attribute
+app_verify_email:
+  path: "/verify-email/{id}/{hash}"
+  controller: 'App\Controller\VerifyEmailController::verify'
+  methods: ["GET"]
