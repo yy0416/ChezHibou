@@ -4,30 +4,91 @@
 {% endblock %}
 
 {% block body %}
-	<main class="container" style="height: 1400px">
-		<section class="row">
-			<div class="col-12">
-
+	<main class="container-fluid">
+		<section class="row no-gutters">
+			<div class="col-12 mb-4">
 				<h2>Bienvenue ChezHibou</h2>
 			</div>
-			{% include '_partials/_productsnav.html.twig' %}
-
-			{% for product in products %}
-				<div class="col-3 mb-4">
-					<article class="card" style="height: 580px">
-						<div class="card-body">
-
-							<h2 class="card-title" style="height: 100px">{{ product.name}}</h2>
-							<img style="height: 200px" src="{{ asset('build/images/' ~ product.images[0]) }}" class="card-img-top" alt="{{ product.name }}">
-							<p class="card-body" style="height: 100px">{{ product.description}}</p>
-							<a href="{{ path('app_products_details',{name: product.name})}}" class="btn btn-primary">Voir les détails</a>
-							<a href="{{ path('cart_add',{id:product.id})}}" class="btn btn-primary">Ajouter au panier</a>
+			<div class="col-md-3 align-items-center" style="height: 200vh;">
+				{% include 'products/_productsnav.html.twig' %}
+			</div>
+			<div class="col-md-9" id="products-container">
+				<div class="row">
+					{% for product in products %}
+						<div class="col-md-4 mb-4">
+							<article class="card h-100">
+								<div class="card-body">
+									<h2 class="card-title" style="height: 60px">{{ product.name }}</h2>
+									{% if product.images|length > 0 %}
+										<img style="height: 200px" src="{{ asset('build/images/' ~ product.images[0]) }}" class="card-img-top" alt="{{ product.name }}">
+									{% else %}
+										<img style="height: 200px" src="{{ asset('build/images/default.jpg') }}" class="card-img-top" alt="Image par défaut">
+									{% endif %}
+									<p class="card-text" style="height: 100px">{{ product.description }}</p>
+									<a href="{{ path('app_products_details', { name: product.name }) }}" class="btn btn-primary mt-3">Voir les détails</a>
+									<a href="{{ path('cart_add', { id: product.id }) }}" class="btn btn-primary mt-3">Ajouter au panier</a>
+								</div>
+							</article>
 						</div>
-					</article>
+					{% endfor %}
 				</div>
-			{% endfor %}
+			</div>
 		</section>
 	</main>
 
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+const links = document.querySelectorAll('.category-link');
+const imageBaseUrl = '{{ asset('build/images/') }}';
+const productDetailsBaseUrl = '{{ path('app_products_details', { name: 'PLACEHOLDER' }) }}';
+const cartAddBaseUrl = '{{ path('cart_add', { id: 'PLACEHOLDER' }) }}';
 
+links.forEach(link => {
+link.addEventListener('click', function (event) {
+event.preventDefault();
+const categoryId = this.dataset.id;
+fetch (`/categories/${categoryId}/json`).then(response => response.json()).then(data => {
+const container = document.getElementById('products-container');
+container.innerHTML = '';
+let row = document.createElement('div');
+row.classList.add('row');
+data.forEach((product, index) => {
+if (index % 3 === 0 && index !== 0) {
+container.appendChild(row);
+row = document.createElement('div');
+row.classList.add('row');
+}
+const productHTML = `
+                                <div class="col-md-4 mb-4">
+                                    <article class="card h-100">
+                                        <div class="card-body">
+                                            <h2 class="card-title" style="height: 60px">${
+product.name
+}</h2>
+                                            <img style="height: 200px" src="${imageBaseUrl}${
+product.image
+}" class="card-img-top" alt="${
+product.name
+}">
+                                            <p class="card-text" style="height: 100px">${
+product.description
+}</p>
+                                            <a href="${
+productDetailsBaseUrl.replace('PLACEHOLDER', product.name)
+}" class="btn btn-primary">Voir les détails</a>
+                                            <a href="${
+cartAddBaseUrl.replace('PLACEHOLDER', product.id)
+}" class="btn btn-primary">Ajouter au panier</a>
+                                        </div>
+                                    </article>
+                                </div>
+                            `;
+row.insertAdjacentHTML('beforeend', productHTML);
+});
+container.appendChild(row);
+});
+});
+});
+});
+	</script>
 {% endblock %}

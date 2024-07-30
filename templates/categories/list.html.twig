@@ -1,17 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoriesController!
+{% block title %}Nos produits
 {% endblock %}
 
 {% block body %}
-	<main class="container" style="height: 700px">
+	<main class="container" style="height: 1400px">
 		<section class="row">
-			<div>
-				<a href="{{ path('app_products') }}">
-					<img style="height:50px" src="{{ asset('build/images/retour-derriere.png') }}" alt="Retour à la liste des produits">
-				</a>
+			<div class="col-12">
+				<h2>{{categories.name}}</h2>
 			</div>
-			{% for product in category.products %}
+
+			{% for product in categories.products %}
 				<div class="col-3">
 					<article class="card" style="height: 600px">
 						<div class="card-body d-flex flex-column justify-content-between">
@@ -26,6 +25,12 @@
 					</article>
 				</div>
 			{% endfor %}
+
+			<div>
+				<a href="{{ path('app_products') }}">
+					<img style="height:50px" src="{{ asset('build/images/retour-derriere.png') }}" alt="Retour à la liste des produits">
+				</a>
+			</div>
 		</section>
 	</main>
 {% endblock %}

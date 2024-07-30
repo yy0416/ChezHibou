@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer Catégorie
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1>Éditer Catégorie</h1>
+
+		{{ form_start(categoriesForm) }}
+		{{ form_widget(categoriesForm) }}
+		<button class="btn btn-primary">Enregistrer les modifications</button>
+		{{ form_end(categoriesForm) }}
+
+		<a href="{{ path('app_admin_categories') }}" class="btn btn-secondary mt-3">Retour à la liste des catégories</a>
+	</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Commandes
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1>Mes Commandes</h1>
+		{% if orders is empty %}
+			<p>Aucune commande trouvée.</p>
+		{% else %}
+			<div
+				class="row">
+				<!-- Liste des commandes -->
+				<div class="col-md-4">
+					<ul class="list-group" id="order-list">
+						{% for order in orders %}
+							<li class="list-group-item">
+								<a href="#" class="order-reference" data-id="{{ order.id }}">
+									{{ order.reference }}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+
+				<!-- Détails de la commande -->
+				<div class="col-md-8">
+					<div id="order-details">
+						<p>Sélectionnez une commande pour voir les détails.</p>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+const orderLinks = document.querySelectorAll('.order-reference');
+const orderDetails = document.getElementById('order-details');
+
+// Charger les détails de la commande initiale si un ID est passé en paramètre GET
+const urlParams = new URLSearchParams(window.location.search);
+const initialOrderId = urlParams.get('orderId');
+if (initialOrderId) {
+fetch (`/commandes/details/ajax/${initialOrderId}`).then(response => response.text()).then(html => {
+orderDetails.innerHTML = html;
+}).catch(error => {
+console.error('Erreur lors du chargement des détails de la commande:', error);
+});
+}
+
+// Ajouter un événement de clic à chaque lien de commande
+orderLinks.forEach(link => {
+link.addEventListener('click', function (event) {
+event.preventDefault();
+const orderId = this.getAttribute('data-id');
+
+fetch (`/commandes/details/ajax/${orderId}`).then(response => {
+if (response.ok) {
+return response.text();
+} else {
+throw new Error('Erreur lors du chargement des détails');
+}
+}).then(html => {
+orderDetails.innerHTML = html;
+}).catch(error => {
+console.error('Erreur lors du chargement des détails de la commande:', error);
+});
+});
+});
+});
+	</script>
+{% endblock %}

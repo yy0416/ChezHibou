@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reservation;
 use App\Form\ReservationType;
+use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,5 +48,17 @@ class ReservationController extends AbstractController
     public function reservationSuccess(): Response
     {
         return $this->render('reservation/success.html.twig');
+    }
+
+    #[Route('/admin/reservations', name: 'app_admin_reservations')]
+    public function adminReservations(ReservationRepository $reservationRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $reservations = $reservationRepository->findAll();
+
+        return $this->render('admin/reservations.html.twig', [
+            'reservations' => $reservations,
+        ]);
     }
 }

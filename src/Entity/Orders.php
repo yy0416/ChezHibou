@@ -118,4 +118,15 @@ class Orders
 
         return $this;
     }
+
+    public function getTotal(): float
+    {
+        $total = 0;
+
+        foreach ($this->getOrdersDetails() as $detail) {
+            $total += $detail->getPrice() * $detail->getQuantity();
+        }
+
+        return $total;
+    }
 }

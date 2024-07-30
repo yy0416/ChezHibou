@@ -1,0 +1,30 @@
+<h5 class="card-title">Référence:
+	{{ order.reference }}</h5>
+<p class="card-text">Date de création:
+	{{ order.createdAt ? order.createdAt|date('d/m/Y H:i') : 'N/A' }}</p>
+<p class="card-text">Utilisateur:
+	{{ order.users.email }}</p>
+<p class="card-text">Coupon:
+	{{ order.coupons ? order.coupons.code : 'Aucun' }}</p>
+
+<h5 class="mt-4">Détails des produits:</h5>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Produit</th>
+			<th>Quantité</th>
+			<th>Prix unitaire (€)</th>
+			<th>Prix total (€)</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for detail in order.ordersDetails %}
+			<tr>
+				<td>{{ detail.products.name }}</td>
+				<td>{{ detail.quantity }}</td>
+				<td>{{ detail.price }}</td>
+				<td>{{ detail.price * detail.quantity }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

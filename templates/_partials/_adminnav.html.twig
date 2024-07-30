@@ -8,7 +8,7 @@
 				<a href="{{ path('app_admin_categories')}}">Liste des catégories</a>
 			</p>
 			<p>
-				<a href="">Ajouter une catégorie</a>
+				<a href="{{ path('app_admin_category_add')}}">Ajouter une catégorie</a>
 			</p>
 		</div>
 	</article>
@@ -27,6 +27,17 @@
 		</div>
 	</article>
 
+	<article class="card mb-3">
+		<div class="card-header">
+			Gérer des rendez-vous
+		</div>
+		<div class="card-body">
+			<p>
+				<a href="{{ path('app_admin_reservations')}}">Liste des rendez-vous</a>
+			</p>
+
+		</div>
+	</article>
 	<article class="card mb-3">
 		<div class="card-header">
 			Utilisateur

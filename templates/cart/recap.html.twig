@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Récapitulatif de la commande
+{% endblock %}
+
+{% block body %}
+	<main class="container" style="height: 580px">
+		<section class="row">
+			<div class="col-12">
+				<h1>Récapitulatif de la commande</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Produit</th>
+							<th>Prix</th>
+							<th>Quantité</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for element in data %}
+							<tr>
+								<td>{{ element.product.name }}</td>
+								<td>{{ element.product.price }}</td>
+								<td>{{ element.quantity }}</td>
+								<td>{{ element.quantity * element.product.price }}€</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="4">Votre panier est vide.</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3">Total</td>
+							<td>{{ total }}€</td>
+						</tr>
+					</tfoot>
+				</table>
+				<a href="{{ path('app_orders_add') }}" class="btn btn-success">Confirmer la commande</a>
+				<a href="{{ path('cart_index') }}" class="btn btn-secondary">Retour au panier</a>
+			</div>
+		</section>
+	</main>
+{% endblock %}

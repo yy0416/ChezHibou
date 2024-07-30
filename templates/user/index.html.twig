@@ -4,49 +4,93 @@
 {% endblock %}
 
 {% block body %}
-	<section class="container">
-		<h1>Bienvenue sur votre compte</h1>
-		<h2>Mon profil</h2>
-		<section class="container">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Champ</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Nom</td>
-						<td>{{ lastname }}</td>
-					</tr>
-					<tr>
-						<td>Prénom</td>
-						<td>{{ firstname }}</td>
-					</tr>
-					<tr>
-						<td>Email</td>
-						<td>{{ email }}</td>
-					</tr>
-					<tr>
-						<td>Adress</td>
-						<td>{{ address }}</td>
-					</tr>
-					<tr>
-						<td>City</td>
-						<td>{{ city }}</td>
-					</tr>
-				</tbody>
-			</table>
-			<a class="btn btn-primary" href="{{ path('app_user_profile')}}">Je voudrais mis à jour mes infos
-			</a>
-		</section>
-		<h2>Mes commandes</h2>
-		{% include 'user/commande.html.twig' %}
+	<div class="container mt-5">
+		<h1 class="mb-4">Bienvenue sur votre compte</h1>
+
+		<div
+			class="row">
+			<!-- Profil Section -->
+			<div class="col-md-6 mb-4">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="mb-0">Mon profil</h2>
+					</div>
+					<div class="card-body">
+						<table class="table table-striped">
+							<tbody>
+								<tr>
+									<td>Nom</td>
+									<td>{{ lastname }}</td>
+								</tr>
+								<tr>
+									<td>Prénom</td>
+									<td>{{ firstname }}</td>
+								</tr>
+								<tr>
+									<td>Email</td>
+									<td>{{ email }}</td>
+								</tr>
+								<tr>
+									<td>Adresse</td>
+									<td>{{ address }}</td>
+								</tr>
+								<tr>
+									<td>Ville</td>
+									<td>{{ city }}</td>
+								</tr>
+							</tbody>
+						</table>
+						<a class="btn btn-primary" href="{{ path('app_user_profile') }}">Je voudrais mettre à jour mes infos</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Commandes Section -->
+			<div class="col-md-6 mb-4">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="mb-0">Mes commandes</h2>
+					</div>
+					<div class="card-body">
+						{% if orders is empty %}
+							<p>Aucune commande trouvée.</p>
+						{% else %}
+							<ul class="list-group">
+								{% for order in orders %}
+									<li class="list-group-item">
+										<a href="{{ path('app_orders_index', {id: order.id}) }}">Référence:
+											{{ order.reference }}<br></a>
+										<strong>Date:</strong>
+										{{ order.createdAt ? order.createdAt|date('d/m/Y H:i') : 'N/A' }}<br>
+										<strong>Total:</strong>
+										{{ order.getTotal() }}
+										€<br>
+
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Administration Section -->
 		{% if is_granted('ROLE_ADMIN') %}
-			<p>
-				<a href="{{ path('app_products_ajout') }}">Gérer les produits</a>
-			</p>
+			<div class="row">
+				<div class="col-md-12 mb-4">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="mb-0">Administration</h2>
+						</div>
+						<div class="card-body">
+							<a href="{{ path('app_admin_products') }}" class="btn btn-danger">Accéder à ma page d'administration</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		{% endif %}
-	</section>
+
+		<a href="{{ path('app_main') }}" class="btn btn-primary mt-3">Retour à l'accueil</a>
+	</div>
 {% endblock %}

@@ -23,6 +23,7 @@ class UserController extends AbstractController
                 $email = $user->getEmail();
                 $address = $user->getAddress();
                 $city = $user->getCity();
+                $orders =  $user->getOrders();
 
                 return $this->render('user/index.html.twig', [
                     'lastname' => $lastname,
@@ -30,6 +31,7 @@ class UserController extends AbstractController
                     'email' => $email,
                     'address' => $address,
                     'city' => $city,
+                    'orders' => $orders,
                 ]);
             } else {
                 throw new \Exception('User is not of the expected class');
@@ -55,7 +57,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('Success', 'Votre profil a été mis à jour');
+            $this->addFlash('success', 'Votre profil a été mis à jour');
 
             return $this->redirectToRoute('app_user_index');
         }

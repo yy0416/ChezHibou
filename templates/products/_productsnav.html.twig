@@ -1,0 +1,21 @@
+<aside class="border border-light bg-white p-2 d-flex justify-content-center " style="height: 100vh;">
+	<article class="card mb-3 w-100">
+		<div class="card-header text-center">
+			Catégories
+		</div>
+		<div class="card-body text-center">
+			{% for categorie in categories %}
+				{% if categorie.name|lower in ['plats', 'entrees'] %}
+					<span class="non-clickable  d-block mb-2" data-id="{{ categorie.id }}" style="cursor: default;">
+						{{ categorie.name }}
+					</span>
+
+				{% else %}
+					<a href="#" class="category-link d-block mb-2" data-id="{{ categorie.id }}">
+						{{ categorie.name }}
+					</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</article>
+</aside>

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservations
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1>Réservations des Clients</h1>
+		{% if reservations is empty %}
+			<p>Aucune réservation trouvée.</p>
+		{% else %}
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nom du Client</th>
+
+						<th>Email</th>
+						<th>Date et Heure</th>
+						<th>Nombre de Personnes</th>
+						<th>Téléphone</th>
+						<th>Appeler client pour modifier ou annuler</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for reservation in reservations %}
+						<tr>
+							<td>{{ reservation.id }}</td>
+							<td>{{ reservation.clientName }}</td>
+
+							<td>{{ reservation.clientEmail }}</td>
+							<td>{{ reservation.heure ? reservation.heure|date('d/m/Y H:i') : 'N/A' }}</td>
+							<td>{{ reservation.numberofReserve }}</td>
+							<td>{{ reservation.phoneNumber }}</td>
+							<td>
+								<div class="d-flex align-items-center">
+									<a href="tel:{{ reservation.phoneNumber }}" class="btn btn-danger btn-sm">
+										Appeler
+									</a>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+		<div class="mt-3">
+			<a href="{{ path('app_admin_products') }}" class="btn btn-primary">Retour à mon administration</a>
+		</div>
+	</div>
+{% endblock %}

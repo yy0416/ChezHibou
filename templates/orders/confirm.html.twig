@@ -27,17 +27,21 @@
 							Quantité:
 							{{ detail.quantity }}<br>
 							Prix unitaire:
-							{{ detail.price  }}
+							{{ detail.price }}
 							€<br>
 							Prix total:
-							{{ (detail.price * detail.quantity)  }}
+							{{ (detail.price * detail.quantity) }}
 							€
 						</li>
 					{% endfor %}
 				</ul>
+
+				<h5 class="mt-4">Prix total de la commande:
+					{{ totalPrice }}
+					€</h5>
 			</div>
 		</div>
 
-		<a href="{{ path('app_main') }}" class="btn btn-primary mt-3">Retour à l'accueil</a>
+		<a href="{{ path('app_user_index') }}" class="btn btn-primary mt-3">Retour à mon compte</a>
 	</div>
 {% endblock %}

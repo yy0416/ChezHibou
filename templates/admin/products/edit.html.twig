@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer Produit
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1>Éditer Produit</h1>
+
+		{{ form_start(productForm) }}
+		{{ form_widget(productForm) }}
+		<button class="btn btn-primary">Enregistrer les modifications</button>
+		{{ form_end(productForm) }}
+
+		<a href="{{ path('app_admin_products') }}" class="btn btn-secondary mt-3">Retour à la liste des produits</a>
+	</div>
+{% endblock %}

@@ -112,4 +112,27 @@ class CartController extends AbstractController
         // On rediger vers la page de panier
         return $this->redirectToRoute('cart_index');
     }
+
+    #[Route('/recp', name: 'recap')]
+    public function recap(SessionInterface $session, ProductsRepository $productsRepository)
+    {
+        $panier = $session->get('panier', []);
+        $data = [];
+        $total = 0;
+
+        foreach ($panier as $id => $quantity) {
+            $product = $productsRepository->find($id);
+
+            $data[] = [
+                'product' => $product,
+                'quantity' => $quantity
+            ];
+            $total += $product->getPrice() * $quantity;
+        }
+        return $this->render('cart/recap.html.twig', [
+            'data' => $data,
+            'total' => $total,
+
+        ]);
+    }
 }
