@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1 class="mb-4">Détails de la Commande</h1>
+
+		<div class="card mb-4">
+			<div class="card-header">
+				<h2 class="card-title">Informations de la Commande</h2>
+			</div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<tbody>
+						<tr>
+							<th>Référence</th>
+							<td>{{ order.reference }}</td>
+						</tr>
+						<tr>
+							<th>Date de création</th>
+							<td>{{ order.createdAt ? order.createdAt|date('d/m/Y H:i') : 'N/A' }}</td>
+						</tr>
+						<tr>
+							<th>Utilisateur</th>
+							<td>{{ order.users.lastname }}
+								{{ order.users.firstname }}</td>
+						</tr>
+						<tr>
+							<th>Coupon</th>
+							<td>{{ order.coupons ? order.coupons.code : 'Aucun' }}</td>
+						</tr>
+						<tr>
+							<th>Total</th>
+							<td>{{ order.total|number_format(2, ',', ' ') }}
+								€</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-header">
+				<h2 class="card-title">Détails des Produits</h2>
+			</div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Produit</th>
+							<th>Quantité</th>
+							<th>Prix Unitaire</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for detail in order.ordersDetails %}
+							<tr>
+								<td>{{ detail.products.name }}</td>
+								<td>{{ detail.quantity }}</td>
+								<td>{{ detail.price|number_format(2, ',', ' ') }}
+									€</td>
+								<td>{{ (detail.price * detail.quantity)|number_format(2, ',', ' ') }}
+									€</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="4">Aucun détail de produit</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="mt-4">
+			<a href="{{ path('app_admin_orders') }}" class="btn btn-secondary">Retour à la liste</a>
+		</div>
+	</div>
+{% endblock %}

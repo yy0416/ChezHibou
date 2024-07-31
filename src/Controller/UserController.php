@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ProfileFormType;
+use App\Repository\OrdersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user_index')]
-    public function index(): Response
+    public function index(OrdersRepository $ordersRepository): Response
     {
         $user = $this->getUser();
 
@@ -23,7 +24,7 @@ class UserController extends AbstractController
                 $email = $user->getEmail();
                 $address = $user->getAddress();
                 $city = $user->getCity();
-                $orders =  $user->getOrders();
+                $orders =  $ordersRepository->findByUserOrderedByDateDesc($user);
 
                 return $this->render('user/index.html.twig', [
                     'lastname' => $lastname,

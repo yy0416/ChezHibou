@@ -97,7 +97,7 @@ class OrdersController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
-        $orders = $ordersRepository->findBy(['users' => $user]);
+        $orders = $ordersRepository->findByUserOrderedByDateDesc($user);
 
         return $this->render('orders/index.html.twig', ['orders' => $orders]);
     }

@@ -28,3 +28,8 @@
 		{% endfor %}
 	</tbody>
 </table>
+<div>
+	<h5 class="mt-4">Total de la commande :</h5>
+	<p>{{ order.getTotal()|number_format(0, '', '') }}
+		€</p>
+</div>

@@ -4,36 +4,37 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container mt-5">
-		<h1>Mes Commandes</h1>
-		{% if orders is empty %}
-			<p>Aucune commande trouvée.</p>
-		{% else %}
-			<div
-				class="row">
-				<!-- Liste des commandes -->
-				<div class="col-md-4">
-					<ul class="list-group" id="order-list">
-						{% for order in orders %}
-							<li class="list-group-item">
-								<a href="#" class="order-reference" data-id="{{ order.id }}">
-									{{ order.reference }}
-								</a>
-							</li>
-						{% endfor %}
-					</ul>
-				</div>
+	<section class="mb-10 d-flex justify-content-center">
+		<div class="container mt-5 mb-5">
+			<h1>Mes Commandes</h1>
+			{% if orders is empty %}
+				<p>Aucune commande trouvée.</p>
+			{% else %}
+				<div
+					class="row">
+					<!-- Liste des commandes -->
+					<div class="col-md-4">
+						<ul class="list-group" id="order-list">
+							{% for order in orders %}
+								<li class="list-group-item">
+									<a href="#" class="order-reference" data-id="{{ order.id }}">
+										{{ order.reference }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
 
-				<!-- Détails de la commande -->
-				<div class="col-md-8">
-					<div id="order-details">
-						<p>Sélectionnez une commande pour voir les détails.</p>
+					<!-- Détails de la commande -->
+					<div class="col-md-8">
+						<div id="order-details">
+							<p>Sélectionnez une commande pour voir les détails.</p>
+						</div>
 					</div>
 				</div>
-			</div>
-		{% endif %}
-	</div>
-
+			{% endif %}
+		</div>
+	</section>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
 const orderLinks = document.querySelectorAll('.order-reference');
